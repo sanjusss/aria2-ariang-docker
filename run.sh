@@ -18,17 +18,24 @@ then
 fi
 
 chown -R ${PUID}:${PGID} /conf
+chown -R ${PUID}:${PGID} /data
+
 touch /var/log/aria2.log
-chmod 755 /var/log/aria2.log
-chown ${PUID}:${PGID} /var/log/aria2.log
-USER=aria2
-addgroup --gid "$PGID" "$USER"
-adduser \
-    --disabled-password \
-    --ingroup "$USER" \
-    --no-create-home \
-    --uid "$PUID" \
-    "$USER"
+if [ ${PUID} -eq "0" ]
+then
+    USER=root
+else
+    chmod 755 /var/log/aria2.log
+    chown ${PUID}:${PGID} /var/log/aria2.log
+    USER=aria2
+    addgroup --gid "$PGID" "$USER"
+    adduser \
+        --disabled-password \
+        --ingroup "$USER" \
+        --no-create-home \
+        --uid "$PUID" \
+        "$USER"
+fi
 sudo -u "$USER" /usr/bin/aria2c -D --conf-path=/conf/aria2.conf
 
 # 启动nginx
