@@ -1,0 +1,29 @@
+name: Docker Image CI
+
+on:
+  [push]
+
+jobs:
+  buildx:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v1
+      -
+        name: Set up Docker Buildx
+        id: buildx
+        uses: crazy-max/ghaction-docker-buildx@v1
+        with:
+          version: latest
+      -
+        name: Available platforms
+        run: echo ${{ steps.buildx.outputs.platforms }}
+      -
+        name: Run Buildx and push
+        run: |
+          docker buildx build \
+            --platform linux/386,linux/amd64,linux/arm/v7,linux/arm64 \
+            -t sanjusss/aria2-ariang-docker:latest \
+            .
+       
