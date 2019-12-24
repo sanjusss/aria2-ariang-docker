@@ -32,15 +32,14 @@ jobs:
           else
             echo ::set-output name=version::snapshot
           fi
-          echo ::set-output name=build_date::$(date -u +'%Y-%m-%dT%H:%M:%SZ')
           echo ::set-output name=docker_platforms::linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64,linux/386,linux/ppc64le,linux/s390x
-          echo ::set-output name=docker_username::${{ secrets.DOCKER_HUB_USER }}
           echo ::set-output name=docker_image::${{ secrets.DOCKER_HUB_USER }}/${{ github.event.repository.name }}
       -
         name: Docker Buildx (no push)
         run: |
           docker buildx build --platform ${{ steps.prepare.outputs.docker_platforms }} \
             --output "type=image,push=false" \
+            --build-arg "ARIAGN_VERSION=${{ steps.prepare.outputs.version }}" \
             --tag "${{ steps.prepare.outputs.docker_image }}:latest" \
             --tag "${{ steps.prepare.outputs.docker_image }}:${{ steps.prepare.outputs.version }}" \
             --file Dockerfile .
@@ -55,6 +54,7 @@ jobs:
         run: |
           docker buildx build --platform ${{ steps.prepare.outputs.docker_platforms }} \
             --output "type=image,push=true" \
+            --build-arg "ARIAGN_VERSION=${{ steps.prepare.outputs.version }}" \
             --tag "${{ steps.prepare.outputs.docker_image }}:${{ steps.prepare.outputs.version }}" \
             --tag "${{ steps.prepare.outputs.docker_image }}:latest" \
             --file Dockerfile .
