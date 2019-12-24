@@ -2,8 +2,6 @@ FROM alpine:3
 
 LABEL maintainer="sanjusss sanjusss@qq.com"
 
-ARG ARIAGN_VERSION=1.1.4
-
 ENV HTTP_PORT=80
 ENV EXTERNAL_PORT=80
 ENV USER_NAME=admin
@@ -34,7 +32,8 @@ RUN apk add --no-cache \
     nginx \
     curl
 
-RUN mkdir -p /run/nginx \
+RUN ARIAGN_VERSION=`curl --silent "https://api.github.com/repos/mayswind/AriaNg/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/'` \
+    && mkdir -p /run/nginx \
     && mkdir -p /usr/share/nginx/html \
     && rm -rf /usr/share/nginx/html/* \
     && wget -N --no-check-certificate https://github.com/mayswind/AriaNg/releases/download/${ARIAGN_VERSION}/AriaNg-${ARIAGN_VERSION}.zip \
