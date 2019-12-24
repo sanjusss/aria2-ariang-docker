@@ -7,6 +7,12 @@ jobs:
   buildx:
     runs-on: ubuntu-latest
     steps:
+      - 
+        name: Docker Login
+        uses: Azure/docker-login@v1
+        with:
+          username: ${{ secrets.DOCKER_HUB_USER }} 
+          password: ${{ secrets.DOCKER_HUB_PASS }}
       -
         name: Checkout
         uses: actions/checkout@v1
@@ -19,17 +25,11 @@ jobs:
       -
         name: Available platforms
         run: echo ${{ steps.buildx.outputs.platforms }}
-      - 
-        name: Docker Login
-        uses: Azure/docker-login@v1
-        with:
-          username: ${{ secrets.DOCKER_HUB_USER }} 
-          password: ${{ secrets.DOCKER_HUB_PASS }}
       -
         name: Run Buildx and push
         run: |
           docker buildx build \
-            --platform linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64,linux/ppc64le,linux/s390x \
+            --platform linux/386,linux/amd64,linux/arm/v7,linux/arm64 \
             --push \
             -t sanjusss/aria2-ariang-docker:latest \
             .
