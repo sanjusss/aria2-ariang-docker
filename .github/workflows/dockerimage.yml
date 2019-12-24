@@ -26,7 +26,7 @@ jobs:
       -
         name: Run Buildx and push
         run: |
-          docker buildx build --platform ${{ steps.prepare.outputs.docker_platforms }} \
+          docker buildx build --platform ${{ steps.buildx.outputs.platforms }} \
             -t sanjusss/aria2-ariang-docker:latest \
             --push \
             .
