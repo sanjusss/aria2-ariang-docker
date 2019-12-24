@@ -11,6 +11,9 @@ jobs:
   buildx:
     runs-on: ubuntu-latest
     steps:
+      - 
+        name: Event name
+        run: echo ${GITHUB_EVENT_NAME}
       -
         name: Checkout
         uses: actions/checkout@v1
