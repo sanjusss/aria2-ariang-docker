@@ -20,6 +20,12 @@ jobs:
         name: Available platforms
         run: echo ${{ steps.buildx.outputs.platforms }}
       -
+        name: Docker Hub Login
+        env:
+          DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASS }}
+        run: |
+          echo "${DOCKER_HUB_PASSWORD}" | docker login --username "${{ secrets.DOCKER_HUB_USER }}" --password-stdin
+      -
         name: Run Buildx and push
         run: |
           docker buildx build \
@@ -27,4 +33,3 @@ jobs:
             -t sanjusss/aria2-ariang-docker:latest \
             --push \
             .
-       
