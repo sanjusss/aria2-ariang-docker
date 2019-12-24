@@ -22,7 +22,7 @@ ADD conf /app/conf
 RUN echo '*/15 * * * * /app/updatebttracker.sh' > /etc/crontabs/root
 CMD /app/run.sh
 HEALTHCHECK --interval=5s --timeout=3s --start-period=5s --retries=3 CMD /app/healthcheck.sh
-RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
+#RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
 
 RUN apk add --no-cache \
     aria2 \
