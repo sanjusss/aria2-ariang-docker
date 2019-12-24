@@ -8,23 +8,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       -
-        name: Checkout
-        uses: actions/checkout@v1
-      -
         name: Set up Docker Buildx
-        id: buildx
-        uses: crazy-max/ghaction-docker-buildx@v1
-        with:
-          version: latest
-      -
-        name: Available platforms
-        run: echo ${{ steps.buildx.outputs.platforms }}
+        run: |
+          docker buildx create --name mybuilder \
+          && docker buildx use mybuilder \
+          && docker buildx inspect --bootstrap
       -
         name: Docker Hub Login
-        env:
-          DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASS }}
         run: |
-          echo "${DOCKER_HUB_PASSWORD}" | docker login --username "${{ secrets.DOCKER_HUB_USER }}" --password-stdin
+          docker login --username "${{ secrets.DOCKER_HUB_USER }}" -p ${{ secrets.DOCKER_HUB_PASS }}
+      -
+        name: Checkout
+        uses: actions/checkout@v1
       -
         name: Run Buildx and push
         run: |
