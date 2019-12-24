@@ -8,23 +8,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       -
+        name: Checkout
+        uses: actions/checkout@v1
+      -
         name: Set up Docker Buildx
-        run: |
-          docker buildx create --name mybuilder \
-          && docker buildx use mybuilder \
-          && docker buildx inspect --bootstrap
+        id: buildx
+        uses: crazy-max/ghaction-docker-buildx@v1
+        with:
+          version: latest
+      -
+        name: Available platforms
+        run: echo ${{ steps.buildx.outputs.platforms }}
       -
         name: Docker Hub Login
         run: |
           docker login --username "${{ secrets.DOCKER_HUB_USER }}" -p ${{ secrets.DOCKER_HUB_PASS }}
       -
-        name: Checkout
-        uses: actions/checkout@v1
-      -
         name: Run Buildx and push
         run: |
           docker buildx build \
-            --platform linux/386,linux/amd64,linux/arm/v7,linux/arm64 \
+            --platform ${{ steps.prepare.outputs.docker_platforms }} \
             -t sanjusss/aria2-ariang-docker:latest \
             --push \
             .
