@@ -28,6 +28,7 @@ docker run -d --name aria2 -p 80:80 -v ./data:/data sanjusss/aria2-ariang-docker
 
 # 参数
 可以直接参考[Dockerfile](https://github.com/sanjusss/aria2-ariang-docker/blob/master/Dockerfile)。
+
 ## 环境变量
 | 环境变量名称 | 注释 |
 | :---- | :----- |
@@ -39,6 +40,7 @@ docker run -d --name aria2 -p 80:80 -v ./data:/data sanjusss/aria2-ariang-docker
 | PGID | 下载、生成文件使用的linux gid，如果想使用root请设置为0，默认值为1000。 |
 | TRACKER_URL | 更新BT Tracker的网址，一般不需要修改。 |
 | ENABLE_UPDATE_TRACKER | 是否定时自动更新BT Tracker的网址，默认值为true。 |
+
 ## 挂载路径
 | 容器路径 | 注释 |
 | :---- | :----- |
