@@ -33,6 +33,17 @@ then
     cp /app/conf/aria2.conf /conf/aria2.conf
 fi
 
+# 随机化jsonrcp路径
+if [ -f oldRpcPath.txt ]
+then
+    OLD_RPC_PATH=`cat oldRpcPath.txt`
+else
+    OLD_RPC_PATH="jsonrpc"
+fi
+RPC_PATH=`cat /proc/sys/kernel/random/uuid`
+sed -i 's/location \/'"${OLD_RPC_PATH}"'/location \/'"${RPC_PATH}"'/g' /etc/nginx/conf.d/default.conf
+sed -i 's/\"'"${OLD_RPC_PATH}"'\"/\"'"${RPC_PATH}"'\"/g' /usr/share/nginx/html/js/aria-ng*.js
+
 # 设置文件权限
 chown -R ${PUID}:${PGID} /conf
 chown -R ${PUID}:${PGID} /data
