@@ -43,6 +43,20 @@ fi
 RPC_PATH=`cat /proc/sys/kernel/random/uuid`
 sed -i 's/location \/'"${OLD_RPC_PATH}"'/location \/'"${RPC_PATH}"'/g' /etc/nginx/conf.d/default.conf
 sed -i 's/\"'"${OLD_RPC_PATH}"'\"/\"'"${RPC_PATH}"'\"/g' /usr/share/nginx/html/js/aria-ng*.js
+echo ${RPC_PATH} > oldRpcPath.txt
+
+# 随机化aria2密钥
+OLD_ARIA2_TOKEN=`grep "^rpc-secret=" /conf/aria2.conf`
+ARIA2_TOKEN=`cat /proc/sys/kernel/random/uuid`
+if [ -z "${OLD_ARIA2_TOKEN}" ]
+then
+    sed -i '$a rpc-secret='"${ARIA2_TOKEN}" /conf/aria2.conf
+else
+    sed -i 's/'"${OLD_ARIA2_TOKEN}"'/rpc-secret='"${ARIA2_TOKEN}"'/g' /conf/aria2.conf
+fi
+BASE64_ARIA2_TOKEN=`echo -n ${ARIA2_TOKEN} | base64`
+sed -i 's/secret:\"[^\"]*\",/secret:\"'"${BASE64_ARIA2_TOKEN}"'\",/g' /usr/share/nginx/html/js/aria-ng*.js
+
 
 # 设置文件权限
 chown -R ${PUID}:${PGID} /conf

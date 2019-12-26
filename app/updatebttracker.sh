@@ -8,7 +8,7 @@ then
     exit 1;
 fi
 
-url_list=$(echo $list | sed 's/[ ][ ]*/,/g')
+url_list=$(echo ${list} | sed 's/[ ][ ]*/,/g')
 
 # pack json
 #uuid=$(cat /proc/sys/kernel/random/uuid)
