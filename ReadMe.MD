@@ -5,7 +5,7 @@
 
 # 仓库地址
 Docker Hub https://hub.docker.com/r/sanjusss/aria2-ariang-docker  
-Github https://github.com/sanjusss/aria2-ariang-docke  
+Github https://github.com/sanjusss/aria2-ariang-docker  
 
 # 简介
 本镜像打包了Aria2、AriaNg，支持密码验证，无需手动设置aria2 rpc。支持设置AriaNg为任意端口。可以设置自动更新BT Tracker。自动保存aria2进度。支持基于uid、gid的文件权限设置。  
@@ -72,6 +72,7 @@ services:
 
 # 示例
 假设我需要在5003端口开启服务，下载路径为/home/data，aria2设置保存到/home/aria2,登录用户为user，密码为123456，UID/GID为1000。
+
 ## 命令行启动
 ```shell
 docker run -d --name aria2 \
@@ -85,6 +86,7 @@ docker run -d --name aria2 \
     -e PASSWORD=123456 \
     sanjusss/aria2-ariang-docker
 ```
+
 ## Docker-Compose启动
 docker-compose.yml文件
 ```yml
