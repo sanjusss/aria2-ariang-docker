@@ -69,3 +69,39 @@ services:
         ports:
             - 80:80
 ```
+
+# 示例
+假设我需要在5003端口开启服务，下载路径为/home/data，aria2设置保存到/home/aria2,登录用户为user，密码为123456，UID/GID为1000。
+## 命令行启动
+```shell
+docker run -d --name aria2 \
+	-p 5003:80 \
+    -v /home/data:/data \
+    -v /home/aria2:/conf \
+    -e PUID=1000 \
+    -e PGID=1000 \
+    -e EXTERNAL_PORT=5003 \
+    -e USER_NAME=user \
+    -e PASSWORD=123456 \
+    sanjusss/aria2-ariang-docker
+```
+## Docker-Compose启动
+docker-compose.yml文件
+```yml
+version: '3'
+services:
+    aria2:
+        image: sanjusss/aria2-ariang-docker
+        container_name: aria2
+        environment:
+            PUID: 1000
+            PGID: 1000
+            EXTERNAL_PORT: 5003
+            USER_NAME: user
+            PASSWORD: 123456
+        volumes:
+            - /home/aria2:/conf
+            - /home/data:/data
+        ports:
+            - 5003:80
+```
