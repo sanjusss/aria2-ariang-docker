@@ -3,9 +3,19 @@ name: Docker Image CI
 on:
   pull_request:
     branches: 'master'
+    paths:
+      - "**"
+      - "!**.MD"
+      - "!LICENSE"
+      - "!.gitignore"
   push:
     branches: 'master'
     tags: 'v*'
+    paths:
+      - "**"
+      - "!**.MD"
+      - "!LICENSE"
+      - "!.gitignore"
 
 jobs:
   buildx:
