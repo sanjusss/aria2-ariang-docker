@@ -14,6 +14,8 @@ ENV ENABLE_UPDATE_TRACKER=true
 VOLUME /data
 VOLUME /conf
 
+EXPOSE 80
+
 WORKDIR /app
 ADD app /app
 RUN chmod +x /app/*.sh
