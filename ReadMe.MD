@@ -33,7 +33,7 @@ docker run -d --name aria2 -p 80:80 -v ./data:/data sanjusss/aria2-ariang-docker
 | 环境变量名称 | 注释 |
 | :---- | :----- |
 | HTTP_PORT | 容器内部使用的AriaNg端口，默认为80，一般不需要修改。 |
-| EXTERNAL_PORT | 最终浏览器访问AriaNg使用的端口，例如通过https://wtf.com访问AriaNg，应设置EXTERNAL_PORT值为443。默认值为80。 |
+| EXTERNAL_PORT | 最终浏览器访问AriaNg使用的端口，例如通过`https://wtf.com`访问AriaNg，应设置EXTERNAL_PORT值为443。默认值为80。 |
 | USER_NAME | 用户名，默认值为admin。 |
 | PASSWORD | 密码，默认值为admin。 |
 | PUID | 下载、生成文件使用的linux uid，如果想使用root请设置为0，默认值为1000。 |
