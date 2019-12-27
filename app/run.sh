@@ -57,6 +57,8 @@ fi
 BASE64_ARIA2_TOKEN=`echo -n ${ARIA2_TOKEN} | base64`
 sed -i 's/secret:\"[^\"]*\",/secret:\"'"${BASE64_ARIA2_TOKEN}"'\",/g' /usr/share/nginx/html/js/aria-ng*.js
 
+# 修改AriaNg，每次启动时都重新设置页面。
+sed -i 's/body class/body onload="localStorage.clear();" class/g' /usr/share/nginx/html/index.html
 
 # 设置文件权限
 chown -R ${PUID}:${PGID} /conf
