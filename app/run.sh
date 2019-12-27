@@ -60,6 +60,25 @@ sed -i 's/secret:\"[^\"]*\",/secret:\"'"${BASE64_ARIA2_TOKEN}"'\",/g' /usr/share
 # 修改AriaNg，每次启动时都重新设置页面。
 sed -i 's/body class/body onload="localStorage.clear();" class/g' /usr/share/nginx/html/index.html
 
+# 修改aria-ng*.js路径，强制重新加载文件。
+OLD_ARIA_NG_JS=`ls /usr/share/nginx/html/js/aria-ng*.js`
+OLD_ARIA_NG_JS_FILE=${OLD_ARIA_NG_JS##*/}
+ARIA_NG_JS="/usr/share/nginx/html/js/aria-ng"`cat /proc/sys/kernel/random/uuid`".js"
+ARIA_NG_JS_FILE=${ARIA_NG_JS##*/}
+mv "${OLD_ARIA_NG_JS}" "${ARIA_NG_JS}"
+sed -i 's/'"${OLD_ARIA_NG_JS_FILE}"'/'"${ARIA_NG_JS_FILE}"'/g' /usr/share/nginx/html/*.*
+
+# 随机化cookie
+if [ -f oldCookie.txt ]
+then
+    OLD_COOKIE=`cat oldCookie.txt`
+else
+    OLD_COOKIE="webcookiemask"
+fi
+COOKIE=`cat /proc/sys/kernel/random/uuid`
+sed -i 's/'"${OLD_COOKIE}"'/'"${COOKIE}"'/g' /etc/nginx/conf.d/default.conf
+echo ${COOKIE} > oldCookie.txt
+
 # 设置文件权限
 chown -R ${PUID}:${PGID} /conf
 chown -R ${PUID}:${PGID} /data
