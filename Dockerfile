@@ -11,6 +11,7 @@ ENV PGID=1000
 ENV TRACKER_URL=https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_all.txt
 ENV ENABLE_UPDATE_TRACKER=true
 ENV ENABLE_AUTO_RANDOM_ARIA=false
+ENV ENABLE_AUTO_CLEAR_ARIANG=true
 
 VOLUME /data
 VOLUME /conf

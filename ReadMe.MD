@@ -41,6 +41,7 @@ docker run -d --name aria2 -p 80:80 -v ./data:/data sanjusss/aria2-ariang-docker
 | TRACKER_URL | 更新BT Tracker的网址，一般不需要修改。 | [在线trackers_all.txt](https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_all.txt) |
 | ENABLE_UPDATE_TRACKER | 是否定时自动更新BT Tracker的网址。 | true |
 | ENABLE_AUTO_RANDOM_ARIA | 每次重启容器时是否自动切换RPCJSON的路径和密码，如果开启此设置，只能在隐私模式下访问ariang，正常模式下浏览会出问题。 | false |
+| ENABLE_AUTO_CLEAR_ARIANG | 是否自动清理ARIA NG设置缓存。 | true |
 
 ## 挂载路径
 | 容器路径 | 注释 |

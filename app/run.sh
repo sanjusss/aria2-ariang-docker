@@ -98,7 +98,10 @@ else
 fi
 
 # 修改AriaNg，每次启动时都重新设置页面。
-sed -i 's/body class/body onload="localStorage.clear();" class/g' /usr/share/nginx/html/index.html
+if [ ${ENABLE_AUTO_CLEAR_ARIANG} == "true" ] 
+then
+    sed -i 's/body class/body onload="localStorage.clear();" class/g' /usr/share/nginx/html/index.html
+fi
 
 # 设置文件权限
 chown -R ${PUID}:${PGID} /conf
