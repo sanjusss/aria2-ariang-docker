@@ -30,16 +30,17 @@ docker run -d --name aria2 -p 80:80 -v ./data:/data sanjusss/aria2-ariang-docker
 可以直接参考[Dockerfile](https://github.com/sanjusss/aria2-ariang-docker/blob/master/Dockerfile)。
 
 ## 环境变量
-| 环境变量名称 | 注释 |
-| :---- | :----- |
-| HTTP_PORT | 容器内部使用的AriaNg端口，默认为80，一般不需要修改。 |
-| EXTERNAL_PORT | 最终浏览器访问AriaNg使用的端口，例如通过`https://wtf.com`访问AriaNg，应设置EXTERNAL_PORT值为443。默认值为80。 |
-| USER_NAME | 用户名，默认值为admin。 |
-| PASSWORD | 密码，默认值为admin。 |
-| PUID | 下载、生成文件使用的linux uid，如果想使用root请设置为0，默认值为1000。 |
-| PGID | 下载、生成文件使用的linux gid，如果想使用root请设置为0，默认值为1000。 |
-| TRACKER_URL | 更新BT Tracker的网址，一般不需要修改。 |
-| ENABLE_UPDATE_TRACKER | 是否定时自动更新BT Tracker的网址，默认值为true。 |
+| 环境变量名称 | 注释 | 默认值 |
+| :---- | :----- | :--- |
+| HTTP_PORT | 容器内部使用的AriaNg端口，一般不需要修改。 | 80 |
+| EXTERNAL_PORT | 最终浏览器访问AriaNg使用的端口，例如通过`https://wtf.com`访问AriaNg，应设置EXTERNAL_PORT值为443。 | 80 |
+| USER_NAME | 用户名。 | admin |
+| PASSWORD | 密码。 | admin |
+| PUID | 下载、生成文件使用的linux uid，如果想使用root请设置为0。 | 1000 |
+| PGID | 下载、生成文件使用的linux gid，如果想使用root请设置为0。 | 1000 |
+| TRACKER_URL | 更新BT Tracker的网址，一般不需要修改。 | https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_all.txt |
+| ENABLE_UPDATE_TRACKER | 是否定时自动更新BT Tracker的网址。 | true |
+| ENABLE_AUTO_RANDOM_ARIA | 每次重启容器时是否自动切换RPCJSON的路径和密码，如果开启此设置，只能在隐私模式下访问ariang，正常模式下浏览会出问题。 | false |
 
 ## 挂载路径
 | 容器路径 | 注释 |
