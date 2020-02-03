@@ -21,7 +21,6 @@ EXPOSE 80
 WORKDIR /app
 ADD app /app
 RUN chmod +x /app/*.sh
-ADD nginx.conf /etc/nginx/conf.d
 ADD conf /app/conf
 RUN echo '*/15 * * * * /app/updatebttracker.sh' > /etc/crontabs/root
 CMD /app/run.sh

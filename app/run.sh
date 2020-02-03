@@ -3,25 +3,6 @@
 # 创建密码
 htpasswd -bc /etc/nginx/passwd ${USER_NAME} ${PASSWORD}
 
-# 修改端口号，考虑到重启容器的情况。
-if [ -f oldHttpPort.txt ]
-then
-    OLD_HTTP_PORT=`cat oldHttpPort.txt`
-else
-    OLD_HTTP_PORT=80
-fi
-sed -i 's/'"${OLD_HTTP_PORT}"'/'"${HTTP_PORT}"'/g' /etc/nginx/conf.d/default.conf
-echo ${HTTP_PORT} > oldHttpPort.txt
-
-if [ -f oldExternalPort.txt ]
-then
-    OLD_EXTERNAL_PORT=`cat oldExternalPort.txt`
-else
-    OLD_EXTERNAL_PORT=6800
-fi
-sed -i 's/'"${OLD_EXTERNAL_PORT}"'/'"${EXTERNAL_PORT}"'/g' /usr/share/nginx/html/js/aria-ng*.js
-echo ${EXTERNAL_PORT} > oldExternalPort.txt
-
 # 初始化aria2配置
 if [ ! -f /conf/aria2.session ] 
 then
@@ -35,6 +16,7 @@ fi
 
 if [ ${ENABLE_AUTO_RANDOM_ARIA} == "true" ] 
 then
+    cp -f /app/random.conf /etc/nginx/conf.d/default.conf
     # 随机化jsonrcp路径
     if [ -f oldRpcPath.txt ]
     then
@@ -78,17 +60,13 @@ then
     sed -i 's/'"${OLD_COOKIE}"'/'"${COOKIE}"'/g' /etc/nginx/conf.d/default.conf
     echo ${COOKIE} > oldCookie.txt
 else
+    cp -f /app/default.conf /etc/nginx/conf.d/default.conf
     # 设置ARIA2密钥
     OLD_ARIA2_TOKEN=`grep -Eo "^rpc-secret=.*" /conf/aria2.conf | cut -d '=' -f 2`
-    if [[ -z "${OLD_ARIA2_TOKEN}" || "${OLD_ARIA2_TOKEN}" = "token123456" ]]
+    if [[ -z "${OLD_ARIA2_TOKEN}" ]]
     then
         ARIA2_TOKEN=`cat /proc/sys/kernel/random/uuid`
-        if [[ -z "${OLD_ARIA2_TOKEN}" ]]
-        then
-            sed -i '$a rpc-secret='"${ARIA2_TOKEN}" /conf/aria2.conf
-        else
-            sed -i 's/rpc-secret=token123456/rpc-secret='"${ARIA2_TOKEN}"'/g' /conf/aria2.conf
-        fi
+        sed -i 's/rpc-secret=token123456/rpc-secret='"${ARIA2_TOKEN}"'/g' /conf/aria2.conf
     else
         ARIA2_TOKEN=${OLD_ARIA2_TOKEN}
     fi
@@ -102,6 +80,25 @@ if [ ${ENABLE_AUTO_CLEAR_ARIANG} == "true" ]
 then
     sed -i 's/body class/body onload="localStorage.clear();" class/g' /usr/share/nginx/html/index.html
 fi
+
+# 修改端口号，考虑到重启容器的情况。
+if [ -f oldHttpPort.txt ]
+then
+    OLD_HTTP_PORT=`cat oldHttpPort.txt`
+else
+    OLD_HTTP_PORT=80
+fi
+sed -i 's/'"${OLD_HTTP_PORT}"'/'"${HTTP_PORT}"'/g' /etc/nginx/conf.d/default.conf
+echo ${HTTP_PORT} > oldHttpPort.txt
+
+if [ -f oldExternalPort.txt ]
+then
+    OLD_EXTERNAL_PORT=`cat oldExternalPort.txt`
+else
+    OLD_EXTERNAL_PORT=6800
+fi
+sed -i 's/'"${OLD_EXTERNAL_PORT}"'/'"${EXTERNAL_PORT}"'/g' /usr/share/nginx/html/js/aria-ng*.js
+echo ${EXTERNAL_PORT} > oldExternalPort.txt
 
 # 设置文件权限
 chown -R ${PUID}:${PGID} /conf

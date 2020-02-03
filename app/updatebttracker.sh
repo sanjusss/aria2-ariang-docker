@@ -9,6 +9,7 @@ then
 fi
 
 url_list=$(echo ${list} | sed 's/[ ][ ]*/,/g')
+ARIA2_TOKEN=`grep -Eo "^rpc-secret=.*" /conf/aria2.conf | cut -d '=' -f 2`
 
 # pack json
 #uuid=$(cat /proc/sys/kernel/random/uuid)
@@ -19,7 +20,8 @@ json='{
     "id": "'${uuid}'",
     "params": [
         {
-            "bt-tracker": "'${url_list}'"
+            "bt-tracker": "'${url_list}'",
+            "token": "'${ARIA2_TOKEN}'"
         }
     ]
 }'
