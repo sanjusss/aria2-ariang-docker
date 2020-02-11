@@ -66,7 +66,7 @@ else
     if [[ -z "${OLD_ARIA2_TOKEN}" ]]
     then
         ARIA2_TOKEN=`cat /proc/sys/kernel/random/uuid`
-        sed -i 's/rpc-secret=token123456/rpc-secret='"${ARIA2_TOKEN}"'/g' /conf/aria2.conf
+        sed -i '$a rpc-secret='"${ARIA2_TOKEN}" /conf/aria2.conf
     else
         ARIA2_TOKEN=${OLD_ARIA2_TOKEN}
     fi
