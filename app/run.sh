@@ -1,5 +1,11 @@
 #!/bin/sh
 
+# 设置时区
+if [ -n  ${TZ} ]
+then
+    ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime && echo ${TZ} > /etc/timezone
+fi
+
 # 创建密码
 htpasswd -bc /etc/nginx/passwd ${USER_NAME} ${PASSWORD}
 

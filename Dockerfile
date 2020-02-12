@@ -12,6 +12,7 @@ ENV TRACKER_URL=https://raw.githubusercontent.com/ngosang/trackerslist/master/tr
 ENV ENABLE_UPDATE_TRACKER=true
 ENV ENABLE_AUTO_RANDOM_ARIA=false
 ENV ENABLE_AUTO_CLEAR_ARIANG=true
+ENV TZ=
 
 VOLUME /data
 VOLUME /conf
@@ -33,7 +34,8 @@ RUN apk add --no-cache \
     apache2-utils \
     sudo \
     nginx \
-    curl
+    curl \
+    tzdata 
 
 RUN ARIAGN_VERSION=`curl --silent "https://api.github.com/repos/mayswind/AriaNg/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/'` \
     && mkdir -p /run/nginx \
