@@ -12,16 +12,15 @@ url_list=$(echo ${list} | sed 's/[ ][ ]*/,/g')
 ARIA2_TOKEN=`grep -Eo "^rpc-secret=.*" /conf/aria2.conf | cut -d '=' -f 2`
 
 # pack json
-#uuid=$(cat /proc/sys/kernel/random/uuid)
-uuid=$(od -x /dev/urandom | head -1 | awk '{OFS="-"; print $2$3,$4,$5,$6,$7$8$9}')
+uuid=$(cat /proc/sys/kernel/random/uuid)
 json='{
     "jsonrpc": "2.0",
     "method": "aria2.changeGlobalOption",
     "id": "'${uuid}'",
     "params": [
+        "token:'${ARIA2_TOKEN}'",
         {
-            "bt-tracker": "'${url_list}'",
-            "token": "'${ARIA2_TOKEN}'"
+            "bt-tracker": "'${url_list}'"
         }
     ]
 }'
