@@ -144,4 +144,4 @@ then
 fi
 
 # 启动aria2
-sudo -u "$USER" /usr/bin/aria2c --conf-path=/conf/aria2.conf
+sudo -u#${PUID} /usr/bin/aria2c --conf-path=/conf/aria2.conf
