@@ -125,13 +125,8 @@ then
     USER=root
 else
     USER=aria2
-    addgroup --gid "$PGID" "$USER"
-    adduser \
-        --disabled-password \
-        --ingroup "$USER" \
-        --no-create-home \
-        --uid "$PUID" \
-        "$USER"
+    groupmod -o -g "$PGID" "$USER"
+    usermod -o -u "$PUID" -g "$PGID" "$USER"
 fi
 
 # 启动nginx

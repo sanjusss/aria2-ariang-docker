@@ -36,7 +36,11 @@ RUN apk add --no-cache \
     sudo \
     nginx \
     curl \
-    tzdata 
+    tzdata \
+    shadow
+    
+RUN groupadd -o -g 1000 aria2 \
+    && useradd -o -g 1000 -u 1000 aria2
 
 RUN ARIAGN_VERSION=`curl --silent "https://api.github.com/repos/mayswind/AriaNg/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/'` \
     && mkdir -p /run/nginx \
