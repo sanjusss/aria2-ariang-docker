@@ -91,6 +91,8 @@ fi
 if [ ${ENABLE_AUTO_CLEAR_ARIANG} == "true" ] 
 then
     sed -i 's/body class/body onload="localStorage.clear();" class/g' /usr/share/nginx/html/index.html
+else
+    sed -i 's/body onload="localStorage.clear();" class/body class/g' /usr/share/nginx/html/index.html
 fi
 
 # 修改端口号，考虑到重启容器的情况。
